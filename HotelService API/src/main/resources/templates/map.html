@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: { lat: 0, lng: 0 },
+            });
+
+            fetch('/api/hotels')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(hotel => {
+                        const marker = new google.maps.Marker({
+                            position: { lat: hotel.latitude, lng: hotel.longitude },
+                            map: map,
+                            title: hotel.name,
+                        });
+                    });
+                });
+        }
+    </script>
+</head>
+<body onload="initMap()">
+<h1>Hotel Locations</h1>
+<div id="map" style="height: 500px; width: 100%;"></div>
+</body>
+</html>
+
